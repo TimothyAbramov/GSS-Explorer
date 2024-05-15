@@ -1,10 +1,11 @@
 library(shinydashboard)
 library(shiny)
+library(shinyWidgets)
 
 
 dashboardPage(
   dashboardHeader(
-    title = "GSS Explorer"
+    title = "GSS Explorer (2022)"
   ),
   
   dashboardSidebar(
