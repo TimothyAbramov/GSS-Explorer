@@ -1,8 +1,3 @@
-library(shinydashboard)
-library(shiny)
-library(shinyWidgets)
-
-
 dashboardPage(
   dashboardHeader(
     title = "GSS Explorer (2022)"
@@ -22,11 +17,15 @@ dashboardPage(
         fluidRow(
           
           column(width = 4,
-            selectInput("selectQuestionSingle", "Select a question:", choices = c("Q1", "Q2", "Q3"))
+            selectInput("selectQuestionSingle", "Select a question:", 
+                        c("labor force status" = "wrkstat",
+                          "r self-emp or works for somebody" = "wrkslf",
+                          "number of hours worked last week" = "hrs1",
+                          "number of brothers and sisters" = "sibs"))
           ),
           
           column(width = 8,
-            plotlyOutput("singleQuestionPlot")
+            plotOutput("singleQuestionPlot")
           )
           
         )
@@ -36,19 +35,27 @@ dashboardPage(
         fluidRow(
           
           column(width = 6,
-            selectInput("selectQuestionCompare1", "Select question A:", choices = c("Q1", "Q2", "Q3"))
+            selectInput("selectQuestionCompare1", "Select question A:",
+                        c("labor force status" = "wrkstat",
+                          "r self-emp or works for somebody" = "wrkslf",
+                          "number of hours worked last week" = "hrs1",
+                          "number of brothers and sisters" = "sibs"))
           ),
           
           column(width = 6,
-            selectInput("selectQuestionCompare2", "Select question B:", choices = c("Q1", "Q2", "Q3"))
+            selectInput("selectQuestionCompare2", "Select question B:",
+                        c("labor force status" = "wrkstat",
+                          "r self-emp or works for somebody" = "wrkslf",
+                          "number of hours worked last week" = "hrs1",
+                          "number of brothers and sisters" = "sibs"))
           )
           
         ),
         fluidRow(
           
-          plotlyOutput("compareQuestionPlot1"),
+          plotOutput("compareQuestionPlot1"),
           
-          plotlyOutput("compareQuestionPlot2")
+          plotOutput("compareQuestionPlot2")
           
         )
       ),#tab2
