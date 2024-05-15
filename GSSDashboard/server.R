@@ -26,7 +26,7 @@ function(input, output, session) {
       str(plotData)
       
       graph <- ggplot(plotData, aes(.data[[input$selectQuestionSingle]])) + 
-        geom_bar() + #bar plot
+        geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
         theme(panel.grid.major.x = element_blank(),
               panel.grid.minor.x = element_blank()) +
         aes(stringr::str_wrap(.data[[input$selectQuestionSingle]], 15)) +
@@ -39,12 +39,14 @@ function(input, output, session) {
       str(plotData[[input$selectQuestionSingle]])
       
       graph <- ggplot(plotData, aes_(x = plotData[[input$selectQuestionSingle]])) + 
-        geom_histogram() #histogram
+        geom_histogram(aes(y = (..count..)/sum(..count..)*100)) +
+        labs(x = input$selectQuestionSingle)
     }
     
     #other visual adjustments, applicable to all graphs
     graph <- graph + 
-      labs(title = paste(toupper(input$selectQuestionSingle), " Distribution")) +
+      labs(title = paste(toupper(input$selectQuestionSingle), " Distribution"),
+           y = "percentage(%)") +
       theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
     
     #our final output
@@ -52,7 +54,6 @@ function(input, output, session) {
   })
   
   output$compareQuestionPlot1 <- renderPlot({
-    
     #get the data for the selected question
     plotData <- data.frame(gss22[[input$selectQuestionCompare1]]) 
     names(plotData) <- input$selectQuestionCompare1
@@ -70,7 +71,7 @@ function(input, output, session) {
       str(plotData)
       
       graph <- ggplot(plotData, aes(.data[[input$selectQuestionCompare1]])) + 
-        geom_bar() + #bar plot
+        geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
         theme(panel.grid.major.x = element_blank(),
               panel.grid.minor.x = element_blank()) +
         aes(stringr::str_wrap(.data[[input$selectQuestionCompare1]], 15)) +
@@ -83,16 +84,19 @@ function(input, output, session) {
       str(plotData[[input$selectQuestionCompare1]])
       
       graph <- ggplot(plotData, aes_(x = plotData[[input$selectQuestionCompare1]])) + 
-        geom_histogram() #histogram
+        geom_histogram(aes(y = (..count..)/sum(..count..)*100)) +
+        labs(x = input$selectQuestionCompare1)
     }
     
     #other visual adjustments, applicable to all graphs
     graph <- graph + 
-      labs(title = paste(toupper(input$selectQuestionCompare1), " Distribution")) +
+      labs(title = paste(toupper(input$selectQuestionCompare1), " Distribution"),
+           y = "percentage(%)") +
       theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
     
     #our final output
     graph
+    
   })
   
   output$compareQuestionPlot2 <- renderPlot({
@@ -114,7 +118,7 @@ function(input, output, session) {
       str(plotData)
       
       graph <- ggplot(plotData, aes(.data[[input$selectQuestionCompare2]])) + 
-        geom_bar() + #bar plot
+        geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
         theme(panel.grid.major.x = element_blank(),
               panel.grid.minor.x = element_blank()) +
         aes(stringr::str_wrap(.data[[input$selectQuestionCompare2]], 15)) +
@@ -127,12 +131,14 @@ function(input, output, session) {
       str(plotData[[input$selectQuestionCompare2]])
       
       graph <- ggplot(plotData, aes_(x = plotData[[input$selectQuestionCompare2]])) + 
-        geom_histogram() #histogram
+        geom_histogram(aes(y = (..count..)/sum(..count..)*100)) +
+        labs(x = input$selectQuestionCompare2)
     }
     
     #other visual adjustments, applicable to all graphs
     graph <- graph + 
-      labs(title = paste(toupper(input$selectQuestionCompare2), " Distribution")) +
+      labs(title = paste(toupper(input$selectQuestionCompare2), " Distribution"),
+           y = "percentage(%)") +
       theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
     
     #our final output
