@@ -23,8 +23,13 @@ dashboardPage(
             selectInput("selectQuestionSingle", "Select a question:", 
                         c("labor force status" = "wrkstat",
                           "r self-emp or works for somebody" = "wrkslf",
+                          "highest degree finished" = "degree",
+                          "what race do you consider yourself" = "race",
                           "number of hours worked last week" = "hrs1",
-                          "number of brothers and sisters" = "sibs"))
+                          "number of brothers and sisters" = "sibs",
+                          "household size and composition" = "hompop",
+                          "members under 6 years of age" = "babies"
+                        ))
           ),
           
           column(width = 8,
@@ -41,16 +46,26 @@ dashboardPage(
             selectInput("selectQuestionCompare1", "Select question A:",
                         c("labor force status" = "wrkstat",
                           "r self-emp or works for somebody" = "wrkslf",
+                          "highest degree finished" = "degree",
+                          "what race do you consider yourself" = "race",
                           "number of hours worked last week" = "hrs1",
-                          "number of brothers and sisters" = "sibs"))
+                          "number of brothers and sisters" = "sibs",
+                          "household size and composition" = "hompop",
+                          "members under 6 years of age" = "babies"
+                        ))
           ),
           
           column(width = 6,
             selectInput("selectQuestionCompare2", "Select question B:",
                         c("labor force status" = "wrkstat",
                           "r self-emp or works for somebody" = "wrkslf",
+                          "highest degree finished" = "degree",
+                          "what race do you consider yourself" = "race",
                           "number of hours worked last week" = "hrs1",
-                          "number of brothers and sisters" = "sibs"))
+                          "number of brothers and sisters" = "sibs",
+                          "household size and composition" = "hompop",
+                          "members under 6 years of age" = "babies"
+                          ))
           )
           
         ),

@@ -49,7 +49,7 @@ plotGraph <- function(varName){
   
   #type of plot depending on the question selected
   #if categorical
-  if(varName %in% c("wrkstat", "wrkslf")){
+  if(varName %in% c("wrkstat", "wrkslf", "degree", "race")){
     plotData[[varName]] <- to_factor(plotData[[varName]])
     print("Data adjusted for categorical:")
     str(plotData)
@@ -62,7 +62,7 @@ plotGraph <- function(varName){
       labs(x = "")
   }
   #if quantitative
-  else if (varName %in% c("hrs1", "sibs")){
+  else{
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
     str(plotData[[varName]])
@@ -77,7 +77,7 @@ plotGraph <- function(varName){
     labs(title = paste(toupper(varName), " Distribution"),
          y = "percentage(%)") +
     theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-          axis.text = element_text(size = 12))
+          axis.text = element_text(size = 10))
   
   #our final output
   graph
