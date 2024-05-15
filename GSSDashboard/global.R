@@ -54,10 +54,11 @@ plotGraph <- function(varName){
     print("Data adjusted for categorical:")
     str(plotData)
     
-    graph <- ggplot(plotData, aes(.data[[varName]])) + 
+    graph <- ggplot(plotData, aes(.data[[varName]], fill = plotData[[varName]])) + 
       geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
       theme(panel.grid.major.x = element_blank(),
-            panel.grid.minor.x = element_blank()) +
+            panel.grid.minor.x = element_blank(),
+            legend.position = "none") +
       aes(stringr::str_wrap(.data[[varName]], 15)) +
       labs(x = "")
   }
@@ -68,7 +69,7 @@ plotGraph <- function(varName){
     str(plotData[[varName]])
     
     graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
-      geom_histogram(aes(y = (..count..)/sum(..count..)*100)) +
+      geom_histogram(aes(y = (..count..)/sum(..count..)*100), fill = "cornflowerblue") +
       labs(x = varName)
   }
   
@@ -77,7 +78,8 @@ plotGraph <- function(varName){
     labs(title = paste(toupper(varName), " Distribution"),
          y = "percentage(%)") +
     theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-          axis.text = element_text(size = 10))
+          axis.text = element_text(size = 10),
+          axis.title = element_text(size = 12, face = "bold"))
   
   #our final output
   graph
