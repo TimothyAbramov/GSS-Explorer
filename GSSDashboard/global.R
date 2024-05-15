@@ -1,3 +1,6 @@
+#dashboard url:
+#https://timothyabramov.shinyapps.io/GSS2022Dashboard/
+
 #library(gssr)
 #library(gssrdoc)
 library(readstata13)
@@ -30,4 +33,52 @@ str(gss22$hrs1) #dbl+lbl
 #sibs (quantitative) How many brothers and sisters did you have? Please count those born alive, but no longer living, as well as those alive now. Also include stepbrothers and stepsisters, and children adopted by your parents.
 #label: number of brothers and sisters
 str(gss22$sibs) #dbl+lbl
+
+
+
+#function to plot graphs
+plotGraph <- function(varName){
+  #get the data for the selected question
+  plotData <- data.frame(gss22[[varName]]) 
+  names(plotData) <- varName
+  print("Original selection:")
+  str(plotData)
+  
+  #initialize graph var
+  graph <- NULL
+  
+  #type of plot depending on the question selected
+  #if categorical
+  if(varName %in% c("wrkstat", "wrkslf")){
+    plotData[[varName]] <- to_factor(plotData[[varName]])
+    print("Data adjusted for categorical:")
+    str(plotData)
+    
+    graph <- ggplot(plotData, aes(.data[[varName]])) + 
+      geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
+      theme(panel.grid.major.x = element_blank(),
+            panel.grid.minor.x = element_blank()) +
+      aes(stringr::str_wrap(.data[[varName]], 15)) +
+      labs(x = "")
+  }
+  #if quantitative
+  else if (varName %in% c("hrs1", "sibs")){
+    plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
+    print("Data adjusted for quantitative")
+    str(plotData[[varName]])
+    
+    graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
+      geom_histogram(aes(y = (..count..)/sum(..count..)*100)) +
+      labs(x = varName)
+  }
+  
+  #other visual adjustments, applicable to all graphs
+  graph <- graph + 
+    labs(title = paste(toupper(varName), " Distribution"),
+         y = "percentage(%)") +
+    theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
+  
+  #our final output
+  graph
+}
 
