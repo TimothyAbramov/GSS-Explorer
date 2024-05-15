@@ -12,6 +12,7 @@ function(input, output, session) {
     #get the data for the selected question
     plotData <- data.frame(gss22[[input$selectQuestionSingle]]) 
     names(plotData) <- input$selectQuestionSingle
+    print("Original selection:")
     str(plotData)
     
     #initialize graph var
@@ -21,6 +22,7 @@ function(input, output, session) {
     #if categorical
     if(input$selectQuestionSingle %in% c("wrkstat", "wrkslf")){
       plotData[[input$selectQuestionSingle]] <- to_factor(plotData[[input$selectQuestionSingle]])
+      print("Data adjusted for categorical:")
       str(plotData)
       
       graph <- ggplot(plotData, aes(.data[[input$selectQuestionSingle]]))
@@ -28,15 +30,22 @@ function(input, output, session) {
     }
     #if quantitative
     else if (input$selectQuestionSingle %in% c("hrs1", "sibs")){
-      plotData[[input$selectQuestionSingle]] <- double(plotData[[input$selectQuestionSingle]])
-      str(plotData)
+      plotData[[input$selectQuestionSingle]] <- as.numeric(plotData[[input$selectQuestionSingle]]) #error somewhere here
+      print("Data adjusted for quantitative")
+      str(plotData[[input$selectQuestionSingle]])
       
-      graph <- ggplot(plotData, aes_(x = .data[[input$selectQuestionSingle]]))
+      graph <- ggplot(plotData, aes_(x = plotData[[input$selectQuestionSingle]]))
       graph <- graph + geom_histogram() #histogram
     }
     
+    #theme + title + axis adjustments
+    graph <- graph + 
+      labs(title = paste(toupper(input$selectQuestionSingle), " Distribution"),
+           x = toupper(input$selectQuestionSingle),
+           y = "COUNT") + 
+      theme_minimal()
     
-    #our output
+    #our final output
     graph
   })
   

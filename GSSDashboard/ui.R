@@ -1,9 +1,12 @@
 dashboardPage(
   dashboardHeader(
-    title = "GSS Explorer (2022)"
+    title = "GSS Explorer (2022)",
+    titleWidth = 300
   ),
   
   dashboardSidebar(
+    collapsed = FALSE,
+    width = 200,
     sidebarMenu(
       menuItem("Explore Questions", tabName = "exploreQuestions"),
       menuItem("Compare Questions", tabName = "compareQuestions"),
