@@ -20,7 +20,7 @@ function(input, output, session) {
     #type of plot depending on the question selected
     #if categorical
     if(input$selectQuestionSingle %in% c("wrkstat", "wrkslf")){
-      plotData[[input$selectQuestionSingle]] <- factor(plotData[[input$selectQuestionSingle]])
+      plotData[[input$selectQuestionSingle]] <- to_factor(plotData[[input$selectQuestionSingle]])
       str(plotData)
       
       graph <- ggplot(plotData, aes(.data[[input$selectQuestionSingle]]))

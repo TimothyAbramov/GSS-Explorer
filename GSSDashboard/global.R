@@ -4,6 +4,7 @@ library(shinydashboard)
 library(shiny)
 library(shinyWidgets)
 library(tidyverse)
+library(labelled)
 
 #getting the data in
 gss22 <- gss_get_yr(2022)
