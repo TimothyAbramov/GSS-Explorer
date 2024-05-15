@@ -1,5 +1,6 @@
-library(gssr)
-library(gssrdoc)
+#library(gssr)
+#library(gssrdoc)
+library(readstata13)
 library(shinydashboard)
 library(shiny)
 library(shinyWidgets)
@@ -7,7 +8,8 @@ library(tidyverse)
 library(labelled)
 
 #getting the data in
-gss22 <- gss_get_yr(2022)
+#gss22 <- gss_get_yr(2022)
+gss22 <- read.dta13("GSS2022.dta")
 
 #see how to figure out what kind of question it is
 # labels <- attr(gss22$wrkstat, "labels")
