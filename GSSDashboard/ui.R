@@ -54,11 +54,16 @@ dashboardPage(
           )
           
         ),
+        
         fluidRow(
           
-          plotOutput("compareQuestionPlot1"),
+          column(width = 6,
+            plotOutput("compareQuestionPlot1")
+          ),
           
-          plotOutput("compareQuestionPlot2")
+          column(width = 6,
+            plotOutput("compareQuestionPlot2")
+          )
           
         )
       ),#tab2
