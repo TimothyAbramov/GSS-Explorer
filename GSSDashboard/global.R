@@ -76,7 +76,8 @@ plotGraph <- function(varName){
   graph <- graph + 
     labs(title = paste(toupper(varName), " Distribution"),
          y = "percentage(%)") +
-    theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
+    theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
+          axis.text = element_text(size = 12))
   
   #our final output
   graph

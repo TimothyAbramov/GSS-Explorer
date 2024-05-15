@@ -28,7 +28,7 @@ dashboardPage(
           ),
           
           column(width = 8,
-            plotOutput("singleQuestionPlot")
+            plotOutput("singleQuestionPlot", height = "80vh")
           )
           
         )
@@ -58,11 +58,11 @@ dashboardPage(
         fluidRow(
           
           column(width = 6,
-            plotOutput("compareQuestionPlot1")
+            plotOutput("compareQuestionPlot1", height = "70vh")
           ),
           
           column(width = 6,
-            plotOutput("compareQuestionPlot2")
+            plotOutput("compareQuestionPlot2", height = "70vh")
           )
           
         )
