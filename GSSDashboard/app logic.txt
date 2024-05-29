@@ -1,0 +1,38 @@
+### Tab 1: Single question/variable ###
+Controls:
+    Question Selection:
+        -search by full question  (synched with other 2)
+        -search by variable label (synched with other 2)
+        -search by variable name  (synched with other 2)
+    Quantitative Variable:
+        -num bins for the histogram [1:n] 
+    Categorical Variable:
+        -sort categories
+            -ascending/descending (hidden/disabled when sort is no)
+        -horizontal/vertical bar plot
+
+
+### Tab 2: Two questions/variables (question comparison) ###
+Controls:
+    Question Selection:
+        Q1:
+            -search by full question  (synched with other 2)
+            -search by variable label (synched with other 2)
+            -search by variable name  (synched with other 2)
+        Q2:
+            -search by full question  (synched with other 2)
+            -search by variable label (synched with other 2)
+            -search by variable name  (synched with other 2)
+            
+    Quantitative vs Quantitative:
+    Quantitative vs Categorical:
+    Categorical vs Categorical(different categories):
+    Categorical vs Categorical(same categories):
+
+
+
+### Tab 3: About page ###
+Description:
+    Text
+    Links
+    Images
