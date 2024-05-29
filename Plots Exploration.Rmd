@@ -1,0 +1,56 @@
+---
+title: "Plots Explored (GSS)"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+#initial setup
+library(tidyverse)
+library(plotly)
+library(labelled)
+library(readstata13)
+
+#get data
+gss22 <- read.dta13("GSSDashboard/GSS2022.dta")
+
+#test vars
+quant_var1 <- gss22$hrs1     #hours worked in a week
+quant_var2 <- gss22$sibs     #number of siblings
+cat_var1   <- gss22$wrkstat  #labor force status
+cat_var2   <- gss22$wrkslf   #r self-emp or works for somebody
+```
+
+
+
+### Quantitative variables:
+```{r}
+#single quantitative variable
+plot_ly(x = ~quant_var1,
+        type = "histogram")
+```
+
+```{r}
+#two quantitative variables
+```
+
+
+### Categorical variables:
+```{r}
+#one categorical variable
+```
+
+```{r}
+#two categorical variables with different categories
+```
+
+```{r}
+#two categorica variables with same categories
+```
+
+
+
+
+
+
+
