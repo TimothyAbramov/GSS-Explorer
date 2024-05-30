@@ -26,8 +26,35 @@ cat_var2   <- gss22$wrkslf   #r self-emp or works for somebody
 ### Quantitative variables:
 ```{r}
 #single quantitative variable
-plot_ly(x = ~quant_var1,
-        type = "histogram")
+
+#axis styles:
+ax_hist <- list(
+  title = "",
+  zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = TRUE,
+  showgrid = FALSE
+)
+
+ax_box <- list(
+  title = "",
+  zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+
+subplot(
+  plot_ly(x = ~quant_var1, type = "box",
+          name = "") %>%
+    layout(xaxis = ax_box, showlegend = FALSE),
+  plot_ly(x = ~quant_var1, type = "histogram", histnorm = "percent",
+          name = "", nbinsx = 9) %>% 
+    layout(xaxis = ax_hist, yaxis = ax_hist),
+  nrows = 2, heights = c(0.3, 0.7),
+  shareX = TRUE
+) %>%
+  layout(showlegend = FALSE, title = "Distribution of X")
 ```
 
 ```{r}
