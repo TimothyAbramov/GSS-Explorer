@@ -10,6 +10,7 @@ Controls:
         -sort categories
             -ascending/descending (hidden/disabled when sort is no)
         -horizontal/vertical bar plot
+        -top n selection
 
 
 ### Tab 2: Two questions/variables (question comparison) ###

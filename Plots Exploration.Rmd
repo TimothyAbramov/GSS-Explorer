@@ -4,6 +4,8 @@ output: html_document
 date: "`r Sys.Date()`"
 ---
 
+
+### initial setup
 ```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 #initial setup
 library(tidyverse)
@@ -19,6 +21,37 @@ quant_var1 <- gss22$hrs1     #hours worked in a week
 quant_var2 <- gss22$sibs     #number of siblings
 cat_var1   <- gss22$wrkstat  #labor force status
 cat_var2   <- gss22$wrkslf   #r self-emp or works for somebody
+```
+
+
+### Util Funcs
+```{r}
+#text wrapper for making sure labels are not too long
+wrapp_text <- function(text, threshold = 20){
+  #if text not long enough to wrapp
+  if(nchar(text) <= threshold){return(text)}
+  #wrapp text
+  else{
+    output_str <- ""
+    pos <- 1
+    while(pos <= nchar(text)){
+      start <- pos
+      
+      end <- start + threshold-1
+      if(end > nchar(text)){end = nchar(text)}
+      
+      while(text[end] != " " & end <= nchar(text)){ #TODO error somewhere here
+        end <- end + 1
+      }
+      
+      temp_str <- substring(text, start, end)
+      temp_str <- paste(temp_str,"<br>", sep = "")
+      output_str <- paste(output_str, temp_str, sep = "")
+    }
+    
+    return(output_str)
+  }
+}
 ```
 
 
@@ -45,7 +78,7 @@ ax_box <- list(
 )
 
 subplot(
-  plot_ly(x = ~quant_var1, type = "box",
+  plot_ly(x = ~quant_var1, type = "box", boxmean = TRUE,
           name = "") %>%
     layout(xaxis = ax_box, showlegend = FALSE),
   plot_ly(x = ~quant_var1, type = "histogram", histnorm = "percent",
@@ -65,6 +98,15 @@ subplot(
 ### Categorical variables:
 ```{r}
 #one categorical variable
+cat_values = data.frame(cat_name = cat_var1, quantity = 1) %>%
+  dplyr::group_by(cat_name) %>%
+  dplyr::summarise(total = sum(quantity))
+
+
+plot_ly(x = cat_values$cat_name,
+        y = cat_values$total,
+        type = "bar") %>%
+  layout(xaxis = list(tickangle = 90))
 ```
 
 ```{r}
