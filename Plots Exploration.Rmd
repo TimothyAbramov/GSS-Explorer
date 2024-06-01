@@ -28,29 +28,53 @@ cat_var2   <- gss22$wrkslf   #r self-emp or works for somebody
 ```{r}
 #text wrapper for making sure labels are not too long
 wrapp_text <- function(text, threshold = 20){
-  #if text not long enough to wrapp
-  if(nchar(text) <= threshold){return(text)}
-  #wrapp text
-  else{
-    output_str <- ""
-    pos <- 1
-    while(pos <= nchar(text)){
-      start <- pos
-      
-      end <- start + threshold-1
-      if(end > nchar(text)){end = nchar(text)}
-      
-      while(text[end] != " " & end <= nchar(text)){ #TODO error somewhere here
-        end <- end + 1
-      }
-      
-      temp_str <- substring(text, start, end)
-      temp_str <- paste(temp_str,"<br>", sep = "")
-      output_str <- paste(output_str, temp_str, sep = "")
+  
+  output_vector <- c()
+  
+  for(text_element in text)
+  {
+  
+    text_size <- nchar(text_element)
+    #print(text_size)
+    
+    #if text not long enough to wrapp
+    if(text_size <= threshold)
+    {
+      output_vector <- c(output_vector, text_element)
+      next
     }
     
-    return(output_str)
+    #wrapp text
+    else
+    {
+      output_str <- ""
+      pos <- 1
+      while(pos <= text_size)
+      {
+        start <- pos
+        
+        end <- start + threshold-1
+        if(end > text_size){end = text_size}
+        
+        while(end < text_size & substring(text_element, end, end) != " ")
+        { 
+          end <- end + 1
+        }
+        
+        temp_str <- substring(text_element, start, end)
+        if(end != text_size)
+        {
+          temp_str <- paste(temp_str,"<br>", sep = "") #update the line
+        }
+        output_str <- paste(output_str, temp_str, sep = "") #update output string
+        
+        pos <- end + 1 #move to next part of the string
+      }
+      
+      output_vector <- c(output_vector, output_str)
+    }
   }
+  return(output_vector)
 }
 ```
 
@@ -100,7 +124,10 @@ subplot(
 #one categorical variable
 cat_values = data.frame(cat_name = cat_var1, quantity = 1) %>%
   dplyr::group_by(cat_name) %>%
-  dplyr::summarise(total = sum(quantity))
+  dplyr::summarise(total = sum(quantity)) %>%
+  dplyr::mutate(cat_name = as.character(cat_name)) %>%
+  dplyr::filter(!is.na(cat_name)) %>%
+  dplyr::mutate(cat_name = wrapp_text(cat_name))
 
 
 plot_ly(x = cat_values$cat_name,
