@@ -9,6 +9,7 @@ library(shiny)
 library(shinyWidgets)
 library(tidyverse)
 library(labelled)
+library(plotly)
 
 #getting the data in
 #gss22 <- gss_get_yr(2022)
@@ -37,7 +38,59 @@ str(gss22$sibs) #dbl+lbl
 
 
 #function to plot graphs
-plotGraph <- function(varName){
+#ggplot:
+# plotGraph <- function(varName){
+#   #get the data for the selected question
+#   plotData <- data.frame(gss22[[varName]]) 
+#   names(plotData) <- varName
+#   print("Original selection:")
+#   str(plotData)
+#   
+#   #initialize graph var
+#   graph <- NULL
+#   
+#   #type of plot depending on the question selected
+#   #if categorical
+#   if(varName %in% c("wrkstat", "wrkslf", "degree", "race")){
+#     plotData[[varName]] <- to_factor(plotData[[varName]])
+#     print("Data adjusted for categorical:")
+#     str(plotData)
+#     
+#     graph <- ggplot(plotData, aes(.data[[varName]], fill = plotData[[varName]])) + 
+#       geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
+#       theme(panel.grid.major.x = element_blank(),
+#             panel.grid.minor.x = element_blank(),
+#             legend.position = "none") +
+#       aes(stringr::str_wrap(.data[[varName]], 15)) +
+#       labs(x = "")
+#   }
+#   #if quantitative
+#   else{
+#     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
+#     print("Data adjusted for quantitative")
+#     str(plotData[[varName]])
+#     
+#     graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
+#       geom_histogram(aes(y = (..count..)/sum(..count..)*100), fill = "cornflowerblue") +
+#       labs(x = varName)
+#   }
+#   
+#   #other visual adjustments, applicable to all graphs
+#   graph <- graph + 
+#     labs(title = paste(toupper(varName), " Distribution"),
+#          y = "percentage(%)") +
+#     theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
+#           axis.text = element_text(size = 10),
+#           axis.title = element_text(size = 12, face = "bold"))
+#   
+#   #our final output
+#   graph
+# }
+
+
+#dynamic plot selection and building
+#using plotly
+plotPlotlyGraph <- function(varName){
   #get the data for the selected question
   plotData <- data.frame(gss22[[varName]]) 
   names(plotData) <- varName
@@ -54,13 +107,15 @@ plotGraph <- function(varName){
     print("Data adjusted for categorical:")
     str(plotData)
     
-    graph <- ggplot(plotData, aes(.data[[varName]], fill = plotData[[varName]])) + 
-      geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
-      theme(panel.grid.major.x = element_blank(),
-            panel.grid.minor.x = element_blank(),
-            legend.position = "none") +
-      aes(stringr::str_wrap(.data[[varName]], 15)) +
-      labs(x = "")
+    # graph <- ggplot(plotData, aes(.data[[varName]], fill = plotData[[varName]])) + 
+    #   geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
+    #   theme(panel.grid.major.x = element_blank(),
+    #         panel.grid.minor.x = element_blank(),
+    #         legend.position = "none") +
+    #   aes(stringr::str_wrap(.data[[varName]], 15)) +
+    #   labs(x = "")
+    
+    #plotly alternative
   }
   #if quantitative
   else{
@@ -68,18 +123,18 @@ plotGraph <- function(varName){
     print("Data adjusted for quantitative")
     str(plotData[[varName]])
     
-    graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
-      geom_histogram(aes(y = (..count..)/sum(..count..)*100), fill = "cornflowerblue") +
-      labs(x = varName)
+    # graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
+    #   geom_histogram(aes(y = (..count..)/sum(..count..)*100), fill = "cornflowerblue") +
+    #   labs(x = varName)
   }
   
   #other visual adjustments, applicable to all graphs
-  graph <- graph + 
-    labs(title = paste(toupper(varName), " Distribution"),
-         y = "percentage(%)") +
-    theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-          axis.text = element_text(size = 10),
-          axis.title = element_text(size = 12, face = "bold"))
+  # graph <- graph + 
+  #   labs(title = paste(toupper(varName), " Distribution"),
+  #        y = "percentage(%)") +
+  #   theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
+  #         axis.text = element_text(size = 10),
+  #         axis.title = element_text(size = 12, face = "bold"))
   
   #our final output
   graph

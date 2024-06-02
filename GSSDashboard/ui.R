@@ -33,7 +33,7 @@ dashboardPage(
           ),
           
           column(width = 8,
-            plotOutput("singleQuestionPlot", height = "80vh")
+            plotlyOutput("singleQuestionPlot", height = "80vh")
           )
           
         )

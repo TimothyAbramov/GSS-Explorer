@@ -8,6 +8,7 @@ date: "`r Sys.Date()`"
 ### initial setup
 ```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 #initial setup
+library(gssrdoc)
 library(tidyverse)
 library(plotly)
 library(labelled)
@@ -86,7 +87,7 @@ wrapp_text <- function(text, threshold = 20){
 
 #axis styles:
 ax_hist <- list(
-  title = "",
+  title = "X",
   zeroline = FALSE,
   showline = FALSE,
   showticklabels = TRUE,
@@ -103,7 +104,7 @@ ax_box <- list(
 
 subplot(
   plot_ly(x = ~quant_var1, type = "box", boxmean = TRUE,
-          name = "") %>%
+          name = " ") %>%
     layout(xaxis = ax_box, showlegend = FALSE),
   plot_ly(x = ~quant_var1, type = "histogram", histnorm = "percent",
           name = "", nbinsx = 9) %>% 

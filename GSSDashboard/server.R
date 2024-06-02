@@ -8,17 +8,17 @@ function(input, output, session) {
   
   #our server outputs:
   #tab1, graph
-  output$singleQuestionPlot <- renderPlot({
-    plotGraph(input$selectQuestionSingle)
+  output$singleQuestionPlot <- renderPlotly({
+    plotPlotlyGraph(input$selectQuestionSingle)
   })
   
   #tab2, graph1
-  output$compareQuestionPlot1 <- renderPlot({
-    plotGraph(input$selectQuestionCompare1)
+  output$compareQuestionPlot1 <- renderPlotly({
+    plotPlotlyGraph(input$selectQuestionCompare1)
   })
   
   #tab2, graph2
-  output$compareQuestionPlot2 <- renderPlot({
-    plotGraph(input$selectQuestionCompare2)
+  output$compareQuestionPlot2 <- renderPlotly({
+    plotPlotlyGraph(input$selectQuestionCompare2)
   })
 }
