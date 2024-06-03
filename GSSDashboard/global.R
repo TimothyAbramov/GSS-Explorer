@@ -84,8 +84,9 @@ plotPlotlyGraph <- function(varName){
   graph <- NULL
   
   #type of plot depending on the question selected
-  
-  if(varName %in% c("wrkstat", "wrkslf", "degree", "race")){ #if categorical 
+  #-categorical:
+  if(varName %in% c("wrkstat", "wrkslf", "degree", "race")){  
+    
     #data prep
     plotData[[varName]] <- as.character(plotData[[varName]])
     print("Data adjusted for categorical plotly(character):")
@@ -117,20 +118,42 @@ plotPlotlyGraph <- function(varName){
   else{
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
-    str(plotData[[varName]])
+    str(plotData)
     
-    # graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
-    #   geom_histogram(aes(y = (..count..)/sum(..count..)*100), fill = "cornflowerblue") +
-    #   labs(x = varName)
+    #axis styles:
+    ax_hist <- list(
+      title = "X",
+      zeroline = FALSE,
+      showline = FALSE,
+      showticklabels = TRUE,
+      showgrid = FALSE
+    )
+
+    ax_box <- list(
+      title = "",
+      zeroline = FALSE,
+      showline = FALSE,
+      showticklabels = FALSE,
+      showgrid = FALSE
+    )
+
+    graph <- subplot(
+      plot_ly(x = plotData[[varName]], type = "box", boxmean = TRUE,
+              name = " ") %>%
+        layout(xaxis = ax_box, showlegend = FALSE),
+      plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
+              name = "", nbinsx = 9) %>%
+        layout(xaxis = ax_hist, yaxis = ax_hist),
+      nrows = 2, heights = c(0.3, 0.7),
+      shareX = TRUE
+    ) %>%
+      layout(showlegend = FALSE, title = paste(varName, "distribution"))
   }
   
-  #other visual adjustments, applicable to all graphs
-  # graph <- graph + 
-  #   labs(title = paste(toupper(varName), " Distribution"),
-  #        y = "percentage(%)") +
-  #   theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-  #         axis.text = element_text(size = 10),
-  #         axis.title = element_text(size = 12, face = "bold"))
+  graph <- graph %>%
+    config(modeBarButtonsToRemove = c("zoom2d","pan2d","select2d","lasso2d",
+        "zoomIn2d","zoomOut2d","autoScale2d","resetScale2d",
+        "hoverClosestCartesian","hoverCompareCartesian"))
   
   #our final output
   graph
