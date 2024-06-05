@@ -1,8 +1,20 @@
 #dashboard url:
 #https://timothyabramov.shinyapps.io/GSS2022Dashboard/
 
+#color pallete (based on Flatly from Bootswatch):
+flatly_palette <- list('default' = '#99A4A6',
+                       'primary' = '#313E4E',
+                       'success' = '#59B99D',
+                       'info' = '#5296D3',
+                       'warning' = '#E5A140',
+                       'danger' = '#D65746',
+                       'link' = '#59B697')
+
+
+
+
 #library(gssr)
-#library(gssrdoc)
+library(gssrdoc)
 library(readstata13)
 library(shinydashboard)
 library(shiny)
@@ -73,8 +85,9 @@ wrapp_text <- function(text, threshold = 20){
 
 
 #plotly dynamic graphs
-plotPlotlyGraph <- function(varName){
+plotSingleQuestion <- function(varName){
   #get the data for the selected question
+  varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
   plotData <- data.frame(gss22[[varName]]) 
   names(plotData) <- varName
   print("Original selection:")
@@ -107,8 +120,10 @@ plotPlotlyGraph <- function(varName){
     
     graph <- plot_ly(x = cat_values[[varName]],
                      y = cat_values$percent,
-                     type = "bar") %>%
-             layout(title = paste(varName, "distribution"),
+                     type = "bar",
+                     marker = list(color = '#5296D3'),
+                     hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
+             layout(title = paste0(varLabel, " (", varName, ")"),
                     xaxis = list(tickangle = 90),
                     yaxis = list(title = "%"))
     
@@ -122,7 +137,7 @@ plotPlotlyGraph <- function(varName){
     
     #axis styles:
     ax_hist <- list(
-      title = "X",
+      title = varName,
       zeroline = FALSE,
       showline = FALSE,
       showticklabels = TRUE,
@@ -139,15 +154,19 @@ plotPlotlyGraph <- function(varName){
 
     graph <- subplot(
       plot_ly(x = plotData[[varName]], type = "box", boxmean = TRUE,
-              name = " ") %>%
+              name = " ", marker = list(color = '#5296D3'),
+              fillcolor = '#FFFFFF', hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
         layout(xaxis = ax_box, showlegend = FALSE),
+      
       plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
-              name = "", nbinsx = 9) %>%
+              name = "", nbinsx = 9, marker = list(color = '#5296D3'),
+              hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
         layout(xaxis = ax_hist, yaxis = ax_hist),
+      
       nrows = 2, heights = c(0.3, 0.7),
       shareX = TRUE
     ) %>%
-      layout(showlegend = FALSE, title = paste(varName, "distribution"))
+      layout(showlegend = FALSE, title = paste0(varLabel, " (", varName, ")"))
   }
   
   graph <- graph %>%
