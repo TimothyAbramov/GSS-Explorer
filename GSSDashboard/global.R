@@ -118,13 +118,15 @@ plotSingleQuestion <- function(varName){
     print("Data prepped for plotly:")
     print(cat_values)
     
-    graph <- plot_ly(x = cat_values[[varName]],
-                     y = cat_values$percent,
+    graph <- plot_ly(x = ~cat_values[[varName]],
+                     y = ~cat_values$percent,
                      type = "bar",
                      marker = list(color = '#5296D3'),
-                     hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
+                     hoverlabel = list(font = list(color = '#FFFFFF')),
+                     text = ~paste0(cat_values[[varName]], "<br>", round(cat_values$percent, 1), "%"),
+                     hoverinfo = 'text', textposition = 'none') %>%
              layout(title = paste0(varLabel, " (", varName, ")"),
-                    xaxis = list(tickangle = 90),
+                    xaxis = list(tickangle = 90, title = " "),
                     yaxis = list(title = "%"))
     
 
@@ -155,11 +157,12 @@ plotSingleQuestion <- function(varName){
     graph <- subplot(
       plot_ly(x = plotData[[varName]], type = "box", boxmean = TRUE,
               name = " ", marker = list(color = '#5296D3'),
-              fillcolor = '#FFFFFF', hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
+              fillcolor = '#FFFFFF', 
+              hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
         layout(xaxis = ax_box, showlegend = FALSE),
       
       plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
-              name = "", nbinsx = 9, marker = list(color = '#5296D3'),
+              name = " ", nbinsx = 9, marker = list(color = '#5296D3'),
               hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
         layout(xaxis = ax_hist, yaxis = ax_hist),
       
@@ -180,68 +183,4 @@ plotSingleQuestion <- function(varName){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#ggplot:
-# plotGraph <- function(varName){
-#   #get the data for the selected question
-#   plotData <- data.frame(gss22[[varName]]) 
-#   names(plotData) <- varName
-#   print("Original selection:")
-#   str(plotData)
-#   
-#   #initialize graph var
-#   graph <- NULL
-#   
-#   #type of plot depending on the question selected
-#   #if categorical
-#   if(varName %in% c("wrkstat", "wrkslf", "degree", "race")){
-#     plotData[[varName]] <- to_factor(plotData[[varName]])
-#     print("Data adjusted for categorical:")
-#     str(plotData)
-#     
-#     graph <- ggplot(plotData, aes(.data[[varName]], fill = plotData[[varName]])) + 
-#       geom_bar(aes(y = (..count..)/sum(..count..)*100)) + #bar plot
-#       theme(panel.grid.major.x = element_blank(),
-#             panel.grid.minor.x = element_blank(),
-#             legend.position = "none") +
-#       aes(stringr::str_wrap(.data[[varName]], 15)) +
-#       labs(x = "")
-#   }
-#   #if quantitative
-#   else{
-#     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
-#     print("Data adjusted for quantitative")
-#     str(plotData[[varName]])
-#     
-#     graph <- ggplot(plotData, aes_(x = plotData[[varName]])) + 
-#       geom_histogram(aes(y = (..count..)/sum(..count..)*100), fill = "cornflowerblue") +
-#       labs(x = varName)
-#   }
-#   
-#   #other visual adjustments, applicable to all graphs
-#   graph <- graph + 
-#     labs(title = paste(toupper(varName), " Distribution"),
-#          y = "percentage(%)") +
-#     theme(plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-#           axis.text = element_text(size = 10),
-#           axis.title = element_text(size = 12, face = "bold"))
-#   
-#   #our final output
-#   graph
-# }
 
