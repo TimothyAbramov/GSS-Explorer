@@ -84,8 +84,9 @@ wrapp_text <- function(text, threshold = 20){
 
 
 
-#plotly dynamic graphs
+#plot(s) for a single question/var selection
 plotSingleQuestion <- function(varName){
+  
   #get the data for the selected question
   varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
   plotData <- data.frame(gss22[[varName]]) 
@@ -131,7 +132,7 @@ plotSingleQuestion <- function(varName){
     
 
   }
-  #if quantitative
+  #-quantitative
   else{
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
@@ -155,15 +156,19 @@ plotSingleQuestion <- function(varName){
     )
 
     graph <- subplot(
+      #boxplot
       plot_ly(x = plotData[[varName]], type = "box", boxmean = TRUE,
               name = " ", marker = list(color = '#5296D3'),
               fillcolor = '#FFFFFF', 
-              hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
+              hoverlabel = list(font = list(color = '#FFFFFF')),
+              hoverinfo = 'x') %>%
         layout(xaxis = ax_box, showlegend = FALSE),
       
+      #histogram
       plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
               name = " ", nbinsx = 9, marker = list(color = '#5296D3'),
-              hoverlabel = list(font = list(color = '#FFFFFF'))) %>%
+              hoverlabel = list(font = list(color = '#FFFFFF')),
+              hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
         layout(xaxis = ax_hist, yaxis = ax_hist),
       
       nrows = 2, heights = c(0.3, 0.7),
@@ -179,6 +184,11 @@ plotSingleQuestion <- function(varName){
   
   #our final output
   graph
+}
+
+#plot(s) for 2 questions/vars selected
+plotQuestionComparison <- function(varName1, varName2){
+  
 }
 
 
