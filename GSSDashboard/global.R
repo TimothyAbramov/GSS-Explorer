@@ -1,18 +1,6 @@
 #dashboard url:
 #https://timothyabramov.shinyapps.io/GSS2022Dashboard/
 
-#color pallete (based on Flatly from Bootswatch):
-flatly_palette <- list('default' = '#99A4A6',
-                       'primary' = '#313E4E',
-                       'success' = '#59B99D',
-                       'info' = '#5296D3',
-                       'warning' = '#E5A140',
-                       'danger' = '#D65746',
-                       'link' = '#59B697')
-
-
-
-
 #library(gssr)
 library(gssrdoc)
 library(readstata13)
@@ -32,6 +20,21 @@ gss22 <- read.dta13("GSS2022.dta")
 #some global vars:
 categorical_vars <- c("wrkstat", "wrkslf", "degree", "race")
 quantitative_vars <- c("hrs1","sibs", "hompop", "babies")
+
+#color pallete (based on Flatly from Bootswatch):
+flatly_palette <- list('default' = '#99A4A6',
+                       'primary' = '#313E4E',
+                       'success' = '#59B99D',
+                       'info' = '#5296D3',
+                       'warning' = '#E5A140',
+                       'danger' = '#D65746',
+                       'link' = '#59B697')
+
+
+
+
+#Functions:
+###########################################################
 
 #text wrapper, for making sure labels are not too long
 wrapp_text <- function(text, threshold = 20){
@@ -83,8 +86,6 @@ wrapp_text <- function(text, threshold = 20){
   }
   return(output_vector)
 }
-
-
 
 #plot(s) for a single question/var selection
 plotSingleQuestion <- function(varName){

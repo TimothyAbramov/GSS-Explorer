@@ -4,7 +4,8 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
     
     fluidRow(
      
-      column(width = 4,
+      column(width = 3,
+             
         selectizeInput("selectQuestionSingle", "question / label / variable",
                     choices = c("labor force status" = "wrkstat",
                       "r self-emp or works for somebody" = "wrkslf",
@@ -15,10 +16,32 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
                       "household size and composition" = "hompop",
                       "members under 6 years of age" = "babies"),
                     options = list(placeholder = "search here",
-                                   onInitialize = I('function() { this.setValue(""); }')))
+                                   onInitialize = I('function() { this.setValue(""); }')),
+                    width = '100%'),
+        
+        #sorting switches
+        conditionalPanel(
+          condition = "categorical_vars.includes(input.selectQuestionSingle)", #TODO conditional hide/unhide of the buttons
+          fluidRow(
+            
+            column(width = 4, align = "left",
+                   switchInput("sortSwitch", label = "sort")
+                   ),
+            
+            column(width = 8, align = "right",
+                   switchInput("sortSwitch", 
+                               onLabel = "ascending", offLabel = "descending",
+                               onStatus = "default")
+            )
+            
+          )#sorting fluidRow
+        )
+        
+        
+        
      ),
      
-     column(width = 8,
+     column(width = 9,
         plotlyOutput("singleQuestionPlot", height = "85vh")
      )
      
