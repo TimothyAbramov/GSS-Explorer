@@ -5,15 +5,17 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
     fluidRow(
      
       column(width = 4,
-        selectInput("selectQuestionSingle", "Select a question:",
-                    c("labor force status" = "wrkstat",
+        selectizeInput("selectQuestionSingle", "question / label / variable",
+                    choices = c("labor force status" = "wrkstat",
                       "r self-emp or works for somebody" = "wrkslf",
                       "highest degree finished" = "degree",
                       "what race do you consider yourself" = "race",
-                      "number of hours worked last week" = "hrs1",
+                      "number of hours worked last week" = "hrs1", 
                       "number of brothers and sisters" = "sibs",
                       "household size and composition" = "hompop",
-                      "members under 6 years of age" = "babies"))
+                      "members under 6 years of age" = "babies"),
+                    options = list(placeholder = "search here",
+                                   onInitialize = I('function() { this.setValue(""); }')))
      ),
      
      column(width = 8,
@@ -32,8 +34,8 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
      
     column(width = 4,
            
-           selectInput("selectQuestionCompare1", "Select question A:",
-                      c("labor force status" = "wrkstat",
+           selectizeInput("selectQuestionCompare1", "Select question A:",
+                      choices = c("labor force status" = "wrkstat",
                         "r self-emp or works for somebody" = "wrkslf",
                         "highest degree finished" = "degree",
                         "what race do you consider yourself" = "race",
@@ -43,8 +45,8 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
                         "members under 6 years of age" = "babies"
                       )),
            
-           selectInput("selectQuestionCompare2", "Select question B:",
-                       c("labor force status" = "wrkstat",
+           selectizeInput("selectQuestionCompare2", "Select question B:",
+                       choices = c("labor force status" = "wrkstat",
                          "r self-emp or works for somebody" = "wrkslf",
                          "highest degree finished" = "degree",
                          "what race do you consider yourself" = "race",

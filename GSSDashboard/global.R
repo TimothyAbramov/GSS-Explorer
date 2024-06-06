@@ -29,9 +29,11 @@ library(rlang)
 #gss22 <- gss_get_yr(2022)
 gss22 <- read.dta13("GSS2022.dta")
 
+#some global vars:
+categorical_vars <- c("wrkstat", "wrkslf", "degree", "race")
+quantitative_vars <- c("hrs1","sibs", "hompop", "babies")
 
-
-#text wrapper for making sure labels are not too long
+#text wrapper, for making sure labels are not too long
 wrapp_text <- function(text, threshold = 20){
   
   output_vector <- c()
@@ -87,6 +89,12 @@ wrapp_text <- function(text, threshold = 20){
 #plot(s) for a single question/var selection
 plotSingleQuestion <- function(varName){
   
+  #-no selection
+  if(varName == ""){
+    print("no selection!")
+    return()
+  }
+  
   #get the data for the selected question
   varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
   plotData <- data.frame(gss22[[varName]]) 
@@ -99,7 +107,7 @@ plotSingleQuestion <- function(varName){
   
   #type of plot depending on the question selected
   #-categorical:
-  if(varName %in% c("wrkstat", "wrkslf", "degree", "race")){  
+  if(varName %in% categorical_vars){  
     
     #data prep
     plotData[[varName]] <- as.character(plotData[[varName]])
@@ -133,7 +141,7 @@ plotSingleQuestion <- function(varName){
 
   }
   #-quantitative
-  else{
+  else if(varName %in% quantitative_vars){
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
     str(plotData)
@@ -183,7 +191,7 @@ plotSingleQuestion <- function(varName){
         "hoverClosestCartesian","hoverCompareCartesian"))
   
   #our final output
-  graph
+  return(graph)
 }
 
 #plot(s) for 2 questions/vars selected
