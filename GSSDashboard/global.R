@@ -21,7 +21,7 @@ gss22 <- read.dta13("GSS2022.dta")
 categorical_vars <- c("wrkstat", "wrkslf", "degree", "race")
 quantitative_vars <- c("hrs1","sibs", "hompop", "babies")
 
-#color pallete (based on Flatly from Bootswatch):
+#ui color pallete (based on Flatly from Bootswatch):
 flatly_palette <- list('default' = '#99A4A6',
                        'primary' = '#313E4E',
                        'success' = '#59B99D',
@@ -30,6 +30,14 @@ flatly_palette <- list('default' = '#99A4A6',
                        'danger' = '#D65746',
                        'link' = '#59B697')
 
+question_bank <- c("labor force status" = "wrkstat",
+  "r self-emp or works for somebody" = "wrkslf",
+  "highest degree finished" = "degree",
+  "what race do you consider yourself" = "race",
+  "number of hours worked last week" = "hrs1",
+  "number of brothers and sisters" = "sibs",
+  "household size and composition" = "hompop",
+  "members under 6 years of age" = "babies")
 
 
 

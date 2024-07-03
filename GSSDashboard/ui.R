@@ -7,35 +7,28 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
       column(width = 3,
              
         selectizeInput("selectQuestionSingle", "question / label / variable",
-                    choices = c("labor force status" = "wrkstat",
-                      "r self-emp or works for somebody" = "wrkslf",
-                      "highest degree finished" = "degree",
-                      "what race do you consider yourself" = "race",
-                      "number of hours worked last week" = "hrs1", 
-                      "number of brothers and sisters" = "sibs",
-                      "household size and composition" = "hompop",
-                      "members under 6 years of age" = "babies"),
+                    choices = NULL,
                     options = list(placeholder = "search here",
                                    onInitialize = I('function() { this.setValue(""); }')),
                     width = '100%'),
         
         #sorting switches
-        conditionalPanel(
-          condition = "categorical_vars.includes(input.selectQuestionSingle)", #TODO conditional hide/unhide of the buttons
-          fluidRow(
-            
-            column(width = 4, align = "left",
-                   switchInput("sortSwitch", label = "sort")
-                   ),
-            
-            column(width = 8, align = "right",
-                   switchInput("sortSwitch", 
-                               onLabel = "ascending", offLabel = "descending",
-                               onStatus = "default")
-            )
-            
-          )#sorting fluidRow
-        )
+        # conditionalPanel(
+        #   condition = "categorical_vars.includes(input.selectQuestionSingle)", #TODO conditional hide/unhide of the buttons
+        #   fluidRow(
+        #     
+        #     column(width = 4, align = "left",
+        #            switchInput("sortSwitch", label = "sort")
+        #            ),
+        #     
+        #     column(width = 8, align = "right",
+        #            switchInput("sortSwitch", 
+        #                        onLabel = "ascending", offLabel = "descending",
+        #                        onStatus = "default")
+        #     )
+        #     
+        #   )#sorting fluidRow
+        # )
         
         
         
@@ -55,32 +48,22 @@ navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
     
   fluidRow(
      
-    column(width = 4,
+    column(width = 3,
            
            selectizeInput("selectQuestionCompare1", "Select question A:",
-                      choices = c("labor force status" = "wrkstat",
-                        "r self-emp or works for somebody" = "wrkslf",
-                        "highest degree finished" = "degree",
-                        "what race do you consider yourself" = "race",
-                        "number of hours worked last week" = "hrs1",
-                        "number of brothers and sisters" = "sibs",
-                        "household size and composition" = "hompop",
-                        "members under 6 years of age" = "babies"
-                      )),
+                      choices = NULL,
+                      options = list(placeholder = "Question A",
+                                     onInitialize = I('function() { this.setValue(""); }'))
+                      ),
            
            selectizeInput("selectQuestionCompare2", "Select question B:",
-                       choices = c("labor force status" = "wrkstat",
-                         "r self-emp or works for somebody" = "wrkslf",
-                         "highest degree finished" = "degree",
-                         "what race do you consider yourself" = "race",
-                         "number of hours worked last week" = "hrs1",
-                         "number of brothers and sisters" = "sibs",
-                         "household size and composition" = "hompop",
-                         "members under 6 years of age" = "babies"
-                       ))
+                       choices = NULL,
+                       options = list(placeholder = "Question B",
+                                      onInitialize = I('function() { this.setValue(""); }'))
+                       )
      ),
      
-     column(width = 8,
+     column(width = 9,
         plotOutput("compareQuestionPlot", height = "80vh")   
      )
      
