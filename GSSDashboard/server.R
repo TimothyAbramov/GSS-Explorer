@@ -1,9 +1,9 @@
 function(input, output, session) {
 
   #selectizeInput
-  updateSelectizeInput(session, 'selectQuestionSingle', choices = question_bank, server = TRUE)
-  updateSelectizeInput(session, 'selectQuestionCompare1', choices = question_bank, server = TRUE)
-  updateSelectizeInput(session, 'selectQuestionCompare2', choices = question_bank, server = TRUE)
+  updateSelectizeInput(session, 'selectQuestionSingle', choices = question_bank_dynamic$variable, server = TRUE)
+  updateSelectizeInput(session, 'selectQuestionCompare1', choices = question_bank_dynamic$variable, server = TRUE)
+  updateSelectizeInput(session, 'selectQuestionCompare2', choices = question_bank_dynamic$variable, server = TRUE)
   
   #tab1 viz
   output$singleQuestionPlot <- renderPlotly({

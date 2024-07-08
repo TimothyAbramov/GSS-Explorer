@@ -30,6 +30,7 @@ flatly_palette <- list('default' = '#99A4A6',
                        'danger' = '#D65746',
                        'link' = '#59B697')
 
+#need variable, label, and var_text from gss_dict
 question_bank <- c("labor force status" = "wrkstat",
   "r self-emp or works for somebody" = "wrkslf",
   "highest degree finished" = "degree",
@@ -38,6 +39,12 @@ question_bank <- c("labor force status" = "wrkstat",
   "number of brothers and sisters" = "sibs",
   "household size and composition" = "hompop",
   "members under 6 years of age" = "babies")
+
+question_bank_dynamic <- gss_dict %>%
+  select(variable, label, var_text, years) %>%
+  na.omit() %>%
+  mutate(label = unname(label))
+  # filter(years$present[years$year == 2022] == TRUE)
 
 
 
