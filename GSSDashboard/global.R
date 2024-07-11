@@ -17,10 +17,6 @@ library(rlang)
 #gss22 <- gss_get_yr(2022)
 gss22 <- read.dta13("GSS2022.dta")
 
-#some global vars:
-categorical_vars <- c("wrkstat", "wrkslf", "degree", "race")
-quantitative_vars <- c("hrs1","sibs", "hompop", "babies")
-
 #ui color pallete (based on Flatly from Bootswatch):
 flatly_palette <- list('default' = '#99A4A6',
                        'primary' = '#313E4E',
@@ -30,21 +26,12 @@ flatly_palette <- list('default' = '#99A4A6',
                        'danger' = '#D65746',
                        'link' = '#59B697')
 
-#need variable, label, and var_text from gss_dict
-question_bank <- c("labor force status" = "wrkstat",
-  "r self-emp or works for somebody" = "wrkslf",
-  "highest degree finished" = "degree",
-  "what race do you consider yourself" = "race",
-  "number of hours worked last week" = "hrs1",
-  "number of brothers and sisters" = "sibs",
-  "household size and composition" = "hompop",
-  "members under 6 years of age" = "babies")
-
-question_bank_dynamic <- gss_dict %>%
+#variable, label, and var_text from gss_dict for 2022
+gss22_question_bank <- gss_dict %>%
   select(variable, label, var_text, years) %>%
   na.omit() %>%
-  mutate(label = unname(label))
-  # filter(years$present[years$year == 2022] == TRUE)
+  mutate(label = unname(label)) %>%
+  # filter(years$present[years$year == 2022] == TRUE) #TODO fix so only vars for a specific year are selected properly
 
 
 
@@ -123,7 +110,7 @@ plotSingleQuestion <- function(varName){
   
   #type of plot depending on the question selected
   #-categorical:
-  if(varName %in% categorical_vars){  
+  if(gss22_var_types[[varName]]$type == "categorical"){  
     
     #data prep
     plotData[[varName]] <- as.character(plotData[[varName]])
@@ -157,7 +144,7 @@ plotSingleQuestion <- function(varName){
 
   }
   #-quantitative
-  else if(varName %in% quantitative_vars){
+  else if(gss22_var_types[[varName]]$type == "quantitative"){
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
     str(plotData)
@@ -214,6 +201,17 @@ plotSingleQuestion <- function(varName){
 plotQuestionComparison <- function(varName1, varName2){
   
 }
+
+
+#Var Types:
+###########################################################
+gss22_var_types <- list(
+  "year" = list("type" = "quantitative", "subtype" = "none"),
+  "wrkstat" = list("type" = "categorical", "subtype" = "ordinal"),
+  "hrs1" = list("type" = "quantitative", "subtype" = "discrete"),
+  "hrs2" = list("type" = "quantitative", "subtype" = "discrete"),
+  "evwork" = list("type" = "categorical", "subtype" = "nominal")
+)
 
 
 
