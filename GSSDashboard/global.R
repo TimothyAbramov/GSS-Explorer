@@ -16,6 +16,7 @@ library(rlang)
 #getting the data in
 #gss22 <- gss_get_yr(2022)
 gss22 <- read.dta13("GSS2022.dta")
+source("gssVarTypes.R", local = TRUE)
 
 #ui color pallete (based on Flatly from Bootswatch):
 flatly_palette <- list('default' = '#99A4A6',
@@ -27,10 +28,10 @@ flatly_palette <- list('default' = '#99A4A6',
                        'link' = '#59B697')
 
 #variable, label, and var_text from gss_dict for 2022
-gss22_question_bank <- gss_dict %>%
+gss_question_bank <- gss_dict %>%
   select(variable, label, var_text, years) %>%
   na.omit() %>%
-  mutate(label = unname(label)) %>%
+  mutate(label = unname(label)) 
   # filter(years$present[years$year == 2022] == TRUE) #TODO fix so only vars for a specific year are selected properly
 
 
@@ -110,7 +111,7 @@ plotSingleQuestion <- function(varName){
   
   #type of plot depending on the question selected
   #-categorical:
-  if(gss22_var_types[[varName]]$type == "categorical"){  
+  if(gss_var_types[[varName]]$type == "categorical"){  
     
     #data prep
     plotData[[varName]] <- as.character(plotData[[varName]])
@@ -144,7 +145,7 @@ plotSingleQuestion <- function(varName){
 
   }
   #-quantitative
-  else if(gss22_var_types[[varName]]$type == "quantitative"){
+  else if(gss_var_types[[varName]]$type == "quantitative"){
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
     str(plotData)
@@ -201,17 +202,6 @@ plotSingleQuestion <- function(varName){
 plotQuestionComparison <- function(varName1, varName2){
   
 }
-
-
-#Var Types:
-###########################################################
-gss22_var_types <- list(
-  "year" = list("type" = "quantitative", "subtype" = "none"),
-  "wrkstat" = list("type" = "categorical", "subtype" = "ordinal"),
-  "hrs1" = list("type" = "quantitative", "subtype" = "discrete"),
-  "hrs2" = list("type" = "quantitative", "subtype" = "discrete"),
-  "evwork" = list("type" = "categorical", "subtype" = "nominal")
-)
 
 
 
