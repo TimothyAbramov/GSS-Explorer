@@ -1,7 +1,7 @@
 #dashboard url:
 #https://timothyabramov.shinyapps.io/GSS2022Dashboard/
 
-#library(gssr)
+library(gssr)
 library(gssrdoc)
 library(readstata13)
 library(shinydashboard)
@@ -14,8 +14,8 @@ library(plotly)
 library(rlang)
 
 #getting the data in
-#gss22 <- gss_get_yr(2022)
-gss22 <- read.dta13("GSS2022.dta")
+gss22 <- gss_get_yr(2022)
+#gss22 <- read.dta13("data/GSS2022.dta")
 source("gssVarTypes.R", local = TRUE)
 
 #ui color pallete (based on Flatly from Bootswatch):

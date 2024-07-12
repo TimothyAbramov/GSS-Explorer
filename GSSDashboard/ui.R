@@ -1,4 +1,4 @@
-navbarPage("GSS Explorer (2022)", theme = shinytheme("flatly"),
+navbarPage("GSS Explorer", theme = shinytheme("flatly"),
   
   tabPanel("Explore",
     
