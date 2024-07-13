@@ -14,8 +14,12 @@ library(plotly)
 library(rlang)
 
 #getting the data in
-gss22 <- gss_get_yr(2022)
-#gss22 <- read.dta13("data/GSS2022.dta")
+#gss22 <- gss_get_yr(2022) from NORC directly, for now let's keep the data local
+
+#setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDashboard")
+gss22 <- read.dta13("data/GSS2022.dta")
+
+#var types file
 source("gssVarTypes.R", local = TRUE)
 
 #ui color pallete (based on Flatly from Bootswatch):
@@ -28,11 +32,14 @@ flatly_palette <- list('default' = '#99A4A6',
                        'link' = '#59B697')
 
 #variable, label, and var_text from gss_dict for 2022
-gss_question_bank <- gss_dict %>%
-  select(variable, label, var_text, years) %>%
-  na.omit() %>%
-  mutate(label = unname(label)) 
-  # filter(years$present[years$year == 2022] == TRUE) #TODO fix so only vars for a specific year are selected properly
+# gss_question_bank <- gss_dict %>%
+#   select(variable, label, var_text, years) %>%
+#   na.omit() %>%
+#   mutate(label = unname(label)) 
+#   # filter(years$present[years$year == 2022] == TRUE) #TODO fix so only vars for a specific year are selected properly
+
+#for now a 2022 solution only:
+gss22_vars <- names(gss22)
 
 
 
