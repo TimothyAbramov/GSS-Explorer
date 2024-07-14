@@ -20,7 +20,7 @@ setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDas
 gss22 <- read.dta13("data/GSS2022.dta")
 
 #var types file
-source("gssVarTypes.R", local = TRUE)
+gss_var_types <- read_excel("data/varInfo.xlsx")
 
 #ui color pallete (based on Flatly from Bootswatch):
 flatly_palette <- list('default' = '#99A4A6',
@@ -39,6 +39,13 @@ gss_var_info <- gss_dict %>%
   unnest(years) %>%
   filter(year == 2022, present == TRUE)
   
+#gss var typing
+gss_var_types <- read_excel("data/varInfo.xlsx")
+
+#filter vars to only those that I have a type for
+gss_var_info <- gss_var_info %>%
+  inner_join(gss_var_types, by = "variable") %>%
+  filter(status == "done")
 
 
 #Functions:
@@ -116,7 +123,7 @@ plotSingleQuestion <- function(varName){
   
   #type of plot depending on the question selected
   #-categorical:
-  if(gss_var_types[[varName]]$type == "categorical"){  
+  if((gss_var_types %>% filter(variable == varName))$type[1] == "categorical"){  
     
     #data prep
     plotData[[varName]] <- as.character(plotData[[varName]])
@@ -150,7 +157,7 @@ plotSingleQuestion <- function(varName){
 
   }
   #-quantitative
-  else if(gss_var_types[[varName]]$type == "quantitative"){
+  else if((gss_var_types %>% filter(variable == varName))$type[1] == "quantitative"){
     plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
     print("Data adjusted for quantitative")
     str(plotData)
