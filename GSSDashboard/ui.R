@@ -35,7 +35,9 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
      ),
      
      column(width = 9,
-        plotlyOutput("singleQuestionPlot", height = "85vh")
+        withSpinner(
+          plotlyOutput("singleQuestionPlot", height = "85vh")
+        )
      )
      
     )  #fluidrow       
@@ -64,7 +66,9 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
      ),
      
      column(width = 9,
-        plotOutput("compareQuestionPlot", height = "80vh")   
+        withSpinner(
+          plotOutput("compareQuestionPlot", height = "80vh")
+        )
      )
      
     ) #fluidrow     
