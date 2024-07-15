@@ -1,29 +1,23 @@
 ### Tab 1: Single question/variable ###
 Controls:
     Question Selection:
-        -search by full question  (synched with other 2)
-        -search by variable label (synched with other 2)
-        -search by variable name  (synched with other 2)
+        -varName and varLabel in one selector [in progress]
     Quantitative Variable:
-        -num bins for the histogram [1:n] 
+        -num bins for the histogram (1:n) [] 
     Categorical Variable:
-        -sort categories
+        -sort categories []
             -ascending/descending (hidden/disabled when sort is no)
-        -horizontal/vertical bar plot
-        -top n selection
+        -horizontal/vertical bar plot []
+        -top n selection []
 
 
 ### Tab 2: Two questions/variables (question comparison) ###
 Controls:
     Question Selection:
         Q1:
-            -search by full question  (synched with other 2)
-            -search by variable label (synched with other 2)
-            -search by variable name  (synched with other 2)
+            -varName and varLabel in one selector
         Q2:
-            -search by full question  (synched with other 2)
-            -search by variable label (synched with other 2)
-            -search by variable name  (synched with other 2)
+            -varName and varLabel in one selector
             
     Quantitative vs Quantitative:
     Quantitative vs Categorical:

@@ -12,23 +12,15 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                                    onInitialize = I('function() { this.setValue(""); }')),
                     width = '100%'),
         
-        #sorting switches
-        # conditionalPanel(
-        #   condition = "categorical_vars.includes(input.selectQuestionSingle)", #TODO conditional hide/unhide of the buttons
-        #   fluidRow(
-        #     
-        #     column(width = 4, align = "left",
-        #            switchInput("sortSwitch", label = "sort")
-        #            ),
-        #     
-        #     column(width = 8, align = "right",
-        #            switchInput("sortSwitch", 
-        #                        onLabel = "ascending", offLabel = "descending",
-        #                        onStatus = "default")
-        #     )
-        #     
-        #   )#sorting fluidRow
-        # )
+        #controls
+        switchInput("sortCategorical", label = "sort", onStatus = "info"),
+        switchInput("sortDirectionCategorical", onLabel = "ascending",
+                    offLabel = "descending", onStatus = "default"),
+        switchInput("orientationCategorical", onLabel = "vertical",
+                    offLabel = "horizontal", onStatus = "default")
+        
+        
+        
         
         
         

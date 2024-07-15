@@ -49,6 +49,11 @@ gss_var_info <- gss_var_info %>%
   inner_join(gss_var_types, by = "variable") %>%
   filter(status == "done")
 
+categorical_vars <- gss_var_info %>%
+  filter(type == "categorical") %>%
+  select(variable)
+categorical_vars <- as.character(categorical_vars$variable)
+
 
 #Functions:
 ###########################################################
