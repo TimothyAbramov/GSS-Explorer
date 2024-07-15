@@ -12,6 +12,7 @@ library(tidyverse)
 library(labelled)
 library(plotly)
 library(rlang)
+library(readxl)
 
 #getting the data in
 #gss22 <- gss_get_yr(2022) from NORC directly
