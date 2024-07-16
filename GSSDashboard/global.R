@@ -209,9 +209,13 @@ plotSingleQuestion <- function(varName){
   }
   
   graph <- graph %>%
-    config(modeBarButtonsToRemove = c("zoom2d","pan2d","select2d","lasso2d",
+    config(modeBarButtonsToRemove = list("zoom2d","pan2d","select2d","lasso2d",
         "zoomIn2d","zoomOut2d","autoScale2d","resetScale2d",
-        "hoverClosestCartesian","hoverCompareCartesian"))
+        "hoverClosestCartesian","hoverCompareCartesian"),
+        toImageButtonOptions = list(format = "png",
+                                    filename = "GSS_Explorer_",
+                                    height = 1000, width = 1000,
+                                    scale = 2))
   
   #our final output
   return(graph)
