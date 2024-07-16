@@ -12,18 +12,36 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                                    onInitialize = I('function() { this.setValue(""); }')),
                     width = '100%'),
         
-        #controls
+        #categorical controls
         conditionalPanel(condition = "output.varType == 'categorical'",
                          
-          switchInput("sortCategorical", label = "sort", onStatus = "info"),
+          radioGroupButtons("sortDirectionCategorical", "sort:", 
+                            choices = c("none", "descending", "ascending"), 
+                            status = "default"),
           
-          switchInput("sortDirectionCategorical", onLabel = "ascending",
-                      offLabel = "descending", onStatus = "default"),
+          radioGroupButtons("orientationCategorical", "orientation:", 
+                            choices = c("horizontal", "vertical"), 
+                            status = "default"),
           
-          switchInput("orientationCategorical", onLabel = "vertical",
-                      offLabel = "horizontal", onStatus = "default")
+          radioGroupButtons("categoryCountCategorical", "categories:", 
+                            choices = c("all", "top n"), 
+                            status = "default"),
           
-        ) #conditional panel for categorical
+          conditionalPanel(condition = "input.categoryCountCategorical == 'top n'",
+                           
+            numericInput("topNCategorical", "n:",
+                         value = 3, min = 1, max = 10, step = 1)                 
+          )
+          
+          
+        ), #conditional panel for categorical
+        
+        
+        #quantitative controls
+        conditionalPanel(condition = "output.varType == 'quantitative'",
+                         
+                         
+        ) #conditional panel for quantitative
         
         
         
