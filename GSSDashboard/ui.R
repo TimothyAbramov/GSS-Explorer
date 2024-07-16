@@ -13,11 +13,17 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                     width = '100%'),
         
         #controls
-        switchInput("sortCategorical", label = "sort", onStatus = "info"),
-        switchInput("sortDirectionCategorical", onLabel = "ascending",
-                    offLabel = "descending", onStatus = "default"),
-        switchInput("orientationCategorical", onLabel = "vertical",
-                    offLabel = "horizontal", onStatus = "default")
+        conditionalPanel(condition = "output.varType == 'categorical'",
+                         
+          switchInput("sortCategorical", label = "sort", onStatus = "info"),
+          
+          switchInput("sortDirectionCategorical", onLabel = "ascending",
+                      offLabel = "descending", onStatus = "default"),
+          
+          switchInput("orientationCategorical", onLabel = "vertical",
+                      offLabel = "horizontal", onStatus = "default")
+          
+        ) #conditional panel for categorical
         
         
         
