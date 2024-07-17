@@ -19,7 +19,9 @@ function(input, output, session) {
   
   #tab1 viz
   output$singleQuestionPlot <- renderPlotly({
-    plotSingleQuestion(input$selectQuestionSingle)
+    plotSingleQuestion(input$selectQuestionSingle, 
+                       input$sortDirectionCategorical, input$orientationCategorical, input$categoryCountCategorical, input$topNCategorical,
+                       input$binsQuantitative)
   })
   
   #tab2 viz

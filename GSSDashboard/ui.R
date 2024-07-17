@@ -20,7 +20,7 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                             status = "default"),
           
           radioGroupButtons("orientationCategorical", "orientation:", 
-                            choices = c("horizontal", "vertical"), 
+                            choices = c("vertical", "horizontal"), 
                             status = "default"),
           
           radioGroupButtons("categoryCountCategorical", "categories:", 
@@ -39,7 +39,8 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
         
         #quantitative controls
         conditionalPanel(condition = "output.varType == 'quantitative'",
-                         
+          numericInput("binsQuantitative", "number of bins",
+                       value = 3, min = 1, max = 10, step = 1)                 
                          
         ) #conditional panel for quantitative
         

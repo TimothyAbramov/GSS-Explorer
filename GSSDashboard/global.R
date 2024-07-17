@@ -110,7 +110,7 @@ wrapp_text <- function(text, threshold = 20){
 }
 
 #plot(s) for a single question/var selection
-plotSingleQuestion <- function(varName){
+plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bins){
   
   #-no selection
   if(varName == ""){
@@ -150,16 +150,17 @@ plotSingleQuestion <- function(varName){
     print("Data prepped for plotly:")
     print(cat_values)
     
-    graph <- plot_ly(x = ~cat_values[[varName]],
-                     y = ~cat_values$percent,
+    graph <- plot_ly(x = if(orientation == "vertical"){~cat_values[[varName]]}else{~cat_values$percent} ,
+                     y = if(orientation == "vertical"){~cat_values$percent}else{~cat_values[[varName]]},
                      type = "bar",
+                     orientation = ifelse(orientation == "vertical", 'v', 'h'),
                      marker = list(color = '#5296D3'),
                      hoverlabel = list(font = list(color = '#FFFFFF')),
                      text = ~paste0(cat_values[[varName]], "<br>", round(cat_values$percent, 1), "%"),
                      hoverinfo = 'text', textposition = 'none') %>%
              layout(title = paste0(varLabel, " (", varName, ")"),
-                    xaxis = list(tickangle = 90, title = " "),
-                    yaxis = list(title = "%"))
+                    xaxis = if(orientation == "vertical"){list(tickangle = -90, title = " ")}else{list(title = "%")},
+                    yaxis = if(orientation == "vertical"){list(title = "%")}else{list(title = " ")})
     
 
   }
