@@ -118,6 +118,15 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
     return()
   }
   
+  #variable prep
+  sortTranslated <- if(sort == "none"){"trace"}
+                    else if(sort == "descending"){"total descending"}
+                    else{"total ascending"}
+  sortTranslatedInverted <- if(sortTranslated == "total descending"){"total ascending"}
+                            else if(sortTranslated == "total ascending"){"total descending"}
+                            else{"trace"}
+  print(sortTranslated)
+  
   #get the data for the selected question
   varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
   plotData <- data.frame(gss22[[varName]]) 
@@ -158,9 +167,13 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
                      hoverlabel = list(font = list(color = '#FFFFFF')),
                      text = ~paste0(cat_values[[varName]], "<br>", round(cat_values$percent, 1), "%"),
                      hoverinfo = 'text', textposition = 'none') %>%
-             layout(title = paste0(varLabel, " (", varName, ")"),
-                    xaxis = if(orientation == "vertical"){list(tickangle = -90, title = " ")}else{list(title = "%")},
-                    yaxis = if(orientation == "vertical"){list(title = "%")}else{list(title = " ")})
+             layout(title = paste0(varLabel, " (", varName, ")"), #titles and tick orientation depending on orientation
+                    xaxis = if(orientation == "vertical"){list(tickangle = -90, title = " ")}
+                            else{list(title = "%")},
+                    yaxis = if(orientation == "vertical"){list(title = "%")}
+                            else{list(title = " ")}) %>%
+             layout(xaxis = list(categoryorder = sortTranslated),
+                    yaxis = list(categoryorder = sortTranslatedInverted)) 
     
 
   }
