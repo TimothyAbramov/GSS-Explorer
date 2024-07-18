@@ -5,9 +5,9 @@ Controls:
     Quantitative Variable:
         -num bins for the histogram (1:n) [] 
     Categorical Variable:
-        -sort categories []
+        -sort categories [done]
             -ascending/descending (hidden/disabled when sort is no)
-        -horizontal/vertical bar plot []
+        -horizontal/vertical bar plot [done]
         -top n selection []
 
 

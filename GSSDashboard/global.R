@@ -14,6 +14,7 @@ library(labelled)
 library(plotly)
 library(rlang)
 library(readxl)
+library(stringr)
 
 #getting the data in
 #gss22 <- gss_get_yr(2022) from NORC directly
@@ -93,7 +94,9 @@ wrapp_text <- function(text, threshold = 20){
           end <- end + 1
         }
         
-        temp_str <- substring(text_element, start, end)
+        
+        temp_str <- str_trim(substring(text_element, start, end))
+        
         if(end != text_size)
         {
           temp_str <- paste(temp_str,"<br>", sep = "") #update the line
