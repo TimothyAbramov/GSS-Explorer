@@ -34,15 +34,15 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
           )
           
           
-        ), #conditional panel for categorical
+        ), #end conditional panel for categorical
         
         
         #quantitative controls
         conditionalPanel(condition = "output.varType == 'quantitative'",
-          numericInput("binsQuantitative", "number of bins",
-                       value = 3, min = 1, max = 10, step = 1)                 
+          numericInput("binsQuantitative", "max number of bins:",
+                       value = 10, min = 1, max = 1000, step = 10)                 
                          
-        ) #conditional panel for quantitative
+        ) #end conditional panel for quantitative
         
         
         

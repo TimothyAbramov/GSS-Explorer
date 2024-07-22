@@ -56,6 +56,9 @@ categorical_vars <- gss_var_info %>%
 categorical_vars <- as.character(categorical_vars$variable)
 
 
+
+
+
 #Functions:
 ###########################################################
 
@@ -128,7 +131,6 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
   sortTranslatedInverted <- if(sortTranslated == "total descending"){"total ascending"}
                             else if(sortTranslated == "total ascending"){"total descending"}
                             else{"trace"}
-  print(sortTranslated)
   
   #get the data for the selected question
   varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
@@ -159,8 +161,8 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
       #dplyr::mutate(cat_name = wrapp_text(!!varName))
     cat_values[[varName]] <- wrapp_text(cat_values[[varName]])
     
-    print("Data prepped for plotly:")
-    print(cat_values)
+    #print("Data prepped for plotly:")
+    #print(cat_values)
     
     graph <- plot_ly(x = if(orientation == "vertical"){~cat_values[[varName]]}else{~cat_values$percent} ,
                      y = if(orientation == "vertical"){~cat_values$percent}else{~cat_values[[varName]]},
@@ -202,7 +204,7 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
       showticklabels = FALSE,
       showgrid = FALSE
     )
-
+    
     graph <- subplot(
       #boxplot
       plot_ly(x = plotData[[varName]], type = "box", boxmean = TRUE,
@@ -214,7 +216,8 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
       
       #histogram
       plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
-              name = " ", nbinsx = 9, marker = list(color = '#5296D3'),
+              name = " ", marker = list(color = '#5296D3'),
+              nbinsx = bins,
               hoverlabel = list(font = list(color = '#FFFFFF')),
               hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
         layout(xaxis = ax_hist, yaxis = ax_hist),
