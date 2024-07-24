@@ -23,29 +23,23 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                             choices = c("vertical", "horizontal"), 
                             status = "default"),
           
-          radioGroupButtons("categoryCountCategorical", "categories:", 
-                            choices = c("all", "top n"), 
-                            status = "default"),
-          
-          conditionalPanel(condition = "input.categoryCountCategorical == 'top n'",
-                           
-            numericInput("topNCategorical", "n:",
-                         value = 3, min = 1, max = 10, step = 1)                 
-          )
-          
           
         ), #end conditional panel for categorical
         
         
         #quantitative controls
+        #TODO fix num of bins, so it's exactly num of bins user specifies!
         conditionalPanel(condition = "output.varType == 'quantitative'",
-          numericInput("binsQuantitative", "max number of bins:",
-                       value = 10, min = 1, max = 1000, step = 10)                 
+        
+          radioGroupButtons("binsConfigQuantitative", "number of bins:", 
+                             choices = c("auto", "manual"), 
+                             status = "default"),                 
+          conditionalPanel(condition = "input.binsConfigQuantitative == 'manual'",
+            numericInput("binsQuantitative", "bins:",
+                         value = 10, min = 1, max = 150)
+          )                 
                          
         ) #end conditional panel for quantitative
-        
-        
-        
         
         
         

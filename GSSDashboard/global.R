@@ -16,11 +16,13 @@ library(rlang)
 library(readxl)
 library(stringr)
 
-#getting the data in
-#gss22 <- gss_get_yr(2022) from NORC directly
+#getting the data in from NORC directly
+gss_data <- gss_get_yr(2022) 
+gss_data <- data.frame(gss_data) #fixes the issues with factors and how everything works together
 
-setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDashboard")
-gss22 <- read.dta13("data/GSS2022.dta")
+#local way of loading data
+#setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDashboard")
+#gss22 <- read.dta13("data/GSS2022.dta")
 
 #var types file
 gss_var_types <- read_excel("data/varInfo.xlsx")
