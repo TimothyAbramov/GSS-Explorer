@@ -118,7 +118,7 @@ wrapp_text <- function(text, threshold = 20){
 }
 
 #plot(s) for a single question/var selection
-plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bins){
+plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, binsConfig, bins){
   
   #-no selection
   if(varName == ""){
@@ -186,9 +186,13 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
   }
   #-quantitative
   else if((gss_var_types %>% filter(variable == varName))$type[1] == "quantitative"){
-    plotData[[varName]] <- as.numeric(plotData[[varName]]) #error somewhere here
-    print("Data adjusted for quantitative")
-    str(plotData)
+    plotData[[varName]] <- as.numeric(plotData[[varName]])
+    
+    #troubleshooting
+    # print("min")
+    # print(min(plotData[[varName]], na.rm = TRUE))
+    # print("max")
+    # print(max(plotData[[varName]], na.rm = TRUE))
     
     #axis styles:
     ax_hist <- list(
@@ -207,6 +211,7 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
       showgrid = FALSE
     )
     
+    
     graph <- subplot(
       #boxplot
       plot_ly(x = plotData[[varName]], type = "box", boxmean = TRUE,
@@ -217,12 +222,27 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
         layout(xaxis = ax_box, showlegend = FALSE),
       
       #histogram
-      plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
-              name = " ", marker = list(color = '#5296D3'),
-              nbinsx = bins,
-              hoverlabel = list(font = list(color = '#FFFFFF')),
-              hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
-        layout(xaxis = ax_hist, yaxis = ax_hist),
+      #auto num of bins
+      if(binsConfig == "auto"){ #for now auto works somewhat sus, was better before
+        plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
+                name = " ", marker = list(color = '#5296D3'),
+                nbinsx = 5,
+                hoverlabel = list(font = list(color = '#FFFFFF')),
+                hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
+          layout(xaxis = ax_hist, yaxis = ax_hist)
+      }
+      #manual num of bins
+      else 
+      { 
+        plot_ly(x = plotData[[varName]], type = "histogram", histnorm = "percent",
+                name = " ", marker = list(color = '#5296D3'),
+                xbins = list(start = min(plotData[[varName]], na.rm = TRUE),
+                             end = max(plotData[[varName]], na.rm = TRUE),
+                             size = (max(plotData[[varName]], na.rm = TRUE) - min(plotData[[varName]], na.rm = TRUE)) / (bins - 1)),
+                hoverlabel = list(font = list(color = '#FFFFFF')),
+                hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
+          layout(xaxis = ax_hist, yaxis = ax_hist)
+      },
       
       nrows = 2, heights = c(0.3, 0.7),
       shareX = TRUE

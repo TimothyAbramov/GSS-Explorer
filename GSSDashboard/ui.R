@@ -36,7 +36,7 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                              status = "default"),                 
           conditionalPanel(condition = "input.binsConfigQuantitative == 'manual'",
             numericInput("binsQuantitative", "bins:",
-                         value = 10, min = 1, max = 150)
+                         value = 5, min = 1, max = 150)
           )                 
                          
         ) #end conditional panel for quantitative
