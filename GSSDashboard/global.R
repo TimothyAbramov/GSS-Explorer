@@ -1,5 +1,5 @@
 #dashboard url:
-#https://timothyabramov.shinyapps.io/GSS2022Dashboard/
+#https://timothyabramov.shinyapps.io/GSSExplorer/
 
 library(gssr)
 library(gssrdoc)
@@ -17,8 +17,8 @@ library(readxl)
 library(stringr)
 
 #getting the data in from NORC directly
-gss_data <- gss_get_yr(2022) 
-gss_data <- data.frame(gss_data) #fixes the issues with factors and how everything works together
+gss22 <- gss_get_yr(2022) 
+#gss22 <- data.frame(gss22) 
 
 #local way of loading data
 #setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDashboard")
@@ -136,7 +136,7 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
   
   #get the data for the selected question
   varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
-  plotData <- data.frame(gss22[[varName]]) 
+  plotData <- data.frame(unlabelled(gss22[[varName]])) 
   names(plotData) <- varName
   print("Original selection:")
   str(plotData)
@@ -238,7 +238,7 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
                 name = " ", marker = list(color = '#5296D3'),
                 xbins = list(start = min(plotData[[varName]], na.rm = TRUE),
                              end = max(plotData[[varName]], na.rm = TRUE),
-                             size = (max(plotData[[varName]], na.rm = TRUE) - min(plotData[[varName]], na.rm = TRUE)) / (bins - 1)),
+                             size = (max(plotData[[varName]], na.rm = TRUE) - min(plotData[[varName]], na.rm = TRUE)) / bins),
                 hoverlabel = list(font = list(color = '#FFFFFF')),
                 hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
           layout(xaxis = ax_hist, yaxis = ax_hist)

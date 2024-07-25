@@ -28,7 +28,6 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
         
         
         #quantitative controls
-        #TODO fix num of bins, so it's exactly num of bins user specifies!
         conditionalPanel(condition = "output.varType == 'quantitative'",
         
           radioGroupButtons("binsConfigQuantitative", "number of bins:", 
