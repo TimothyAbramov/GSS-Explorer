@@ -14,7 +14,8 @@ function(input, output, session) {
   
   #selectizeInput
   updateSelectizeInput(session, 'selectQuestionSingle',
-                       choices = gss_var_info$variable, server = TRUE)
+                       choices = gss_var_info$variable,
+                       server = TRUE)
   updateSelectizeInput(session, 'selectQuestionCompare1', 
                        choices = gss_var_info$variable, server = TRUE)
   updateSelectizeInput(session, 'selectQuestionCompare2', 

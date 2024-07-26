@@ -50,7 +50,9 @@ gss_var_types <- read_excel("data/varInfo.xlsx")
 #filter vars to only those that I have a type for
 gss_var_info <- gss_var_info %>%
   inner_join(gss_var_types, by = "variable") %>%
-  filter(status == "done")
+  filter(status == "done") %>%
+  select(variable, label = label.x, text = var_text.x, type, subtype)
+gss_var_info <- data.frame(gss_var_info)
 
 categorical_vars <- gss_var_info %>%
   filter(type == "categorical") %>%
