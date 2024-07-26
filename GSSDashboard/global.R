@@ -17,12 +17,11 @@ library(readxl)
 library(stringr)
 
 #getting the data in from NORC directly
-gss22 <- gss_get_yr(2022) 
-#gss22 <- data.frame(gss22) 
+gss_data <- gss_get_yr(2022) 
 
 #local way of loading data
 #setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDashboard")
-#gss22 <- read.dta13("data/GSS2022.dta")
+#gss_data <- read.dta13("data/GSS2022.dta")
 
 #var types file
 gss_var_types <- read_excel("data/varInfo.xlsx")
@@ -36,24 +35,21 @@ flatly_palette <- list('default' = '#99A4A6',
                        'danger' = '#D65746',
                        'link' = '#59B697')
 
-#variable, label, and var_text from gss_dict for 2022
+
+#variable, label, and var_text from gss_dict for gssYear
 gss_var_info <- gss_dict %>%
   select(variable, label, var_text, years) %>%
   na.omit() %>%
   mutate(label = unname(label)) %>%
   unnest(years) %>%
-  filter(year == 2022, present == TRUE)
-  
-#gss var typing
-gss_var_types <- read_excel("data/varInfo.xlsx")
-
-#filter vars to only those that I have a type for
-gss_var_info <- gss_var_info %>%
-  inner_join(gss_var_types, by = "variable") %>%
+  filter(year == 2022, present == TRUE) %>%
+  inner_join(gss_var_types, by = "variable") %>% #filter vars to only those that I have a type for
   filter(status == "done") %>%
   select(variable, label = label.x, text = var_text.x, type, subtype)
 gss_var_info <- data.frame(gss_var_info)
 
+
+#vector of categorical vars for viz selection
 categorical_vars <- gss_var_info %>%
   filter(type == "categorical") %>%
   select(variable)
@@ -75,7 +71,6 @@ wrapp_text <- function(text, threshold = 20){
   {
     
     text_size <- nchar(text_element)
-    #print(text_size)
     
     #if text not long enough to wrapp
     if(text_size <= threshold)
@@ -120,11 +115,11 @@ wrapp_text <- function(text, threshold = 20){
 }
 
 #plot(s) for a single question/var selection
-plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, binsConfig, bins){
+plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories, topN, binsConfig, bins){
   
   #-no selection
   if(varName == ""){
-    print("no selection!")
+    print("no question selected!(selectizeInput)")
     return()
   }
   
@@ -138,10 +133,10 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
   
   #get the data for the selected question
   varLabel <- as.character(gss_dict[gss_dict['variable'] == varName, 'label'])
-  plotData <- data.frame(unlabelled(gss22[[varName]])) 
+  plotData <- data.frame(unlabelled(gss_data[[varName]])) 
   names(plotData) <- varName
-  print("Original selection:")
-  str(plotData)
+  #print("Original selection:")
+  #str(plotData)
   
   #initialize graph var
   graph <- NULL
@@ -152,8 +147,8 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
     
     #data prep
     plotData[[varName]] <- as.character(plotData[[varName]])
-    print("Data adjusted for categorical plotly(character):")
-    str(plotData)
+    #print("Data adjusted for categorical plotly(character):")
+    #str(plotData)
     
     
     cat_values = plotData %>%
@@ -176,7 +171,7 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
                      hoverlabel = list(font = list(color = '#FFFFFF')),
                      text = ~paste0(cat_values[[varName]], "<br>", round(cat_values$percent, 1), "%"),
                      hoverinfo = 'text', textposition = 'none') %>%
-             layout(title = paste0(varLabel, " (", varName, ")"), #titles and tick orientation depending on orientation
+             layout(title = paste0(varLabel, " (", varName, ", ", gssYear, ")"), #titles and tick orientation depending on orientation
                     xaxis = if(orientation == "vertical"){list(tickangle = -90, title = " ")}
                             else{list(title = "%")},
                     yaxis = if(orientation == "vertical"){list(title = "%")}
@@ -249,7 +244,7 @@ plotSingleQuestion <- function(varName, sort, orientation, nCategories, topN, bi
       nrows = 2, heights = c(0.3, 0.7),
       shareX = TRUE
     ) %>%
-      layout(showlegend = FALSE, title = paste0(varLabel, " (", varName, ")"))
+      layout(showlegend = FALSE, title = paste0(varLabel, " (", varName,", ", gssYear, ")"))
   }
   
   graph <- graph %>%

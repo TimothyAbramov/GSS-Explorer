@@ -1,6 +1,7 @@
 function(input, output, session) {
 
-  #var category
+  #var category (reactive output that is only on server,
+  #              used in javascript condition on the ui side)
   output$varType <- reactive({
     if(input$selectQuestionSingle %in% categorical_vars){
       return("categorical")
@@ -12,7 +13,33 @@ function(input, output, session) {
   outputOptions(output, "varType", suspendWhenHidden = FALSE)
   
   
-  #selectizeInput
+  
+  #handling year selection
+  observeEvent(input$selectGSSYear, {
+    #update gss data 
+    gss_data <- gss_get_yr(input$selectGSSYear)
+    
+    #update the selectize choices:
+    gss_var_info <- gss_dict %>% #variable, label, and var_text from gss_dict for gssYear
+      select(variable, label, var_text, years) %>%
+      na.omit() %>%
+      mutate(label = unname(label)) %>%
+      unnest(years) %>%
+      filter(year == as.numeric(input$selectGSSYear), present == TRUE) %>%
+      inner_join(gss_var_types, by = "variable") %>% #filter vars to only those that I have a type for
+      filter(status == "done") %>%
+      select(variable, label = label.x, text = var_text.x, type, subtype)
+    gss_var_info <- data.frame(gss_var_info)
+    
+    #updating the ui part
+    updateSelectizeInput(session, 'selectQuestionSingle',
+                         choices = gss_var_info$variable,
+                         server = TRUE)
+  })
+  
+  
+  
+  #updating var/label/question choices dynamically
   updateSelectizeInput(session, 'selectQuestionSingle',
                        choices = gss_var_info$variable,
                        server = TRUE)
@@ -21,15 +48,19 @@ function(input, output, session) {
   updateSelectizeInput(session, 'selectQuestionCompare2', 
                        choices = gss_var_info$variable, server = TRUE)
   
-  #tab1 viz
+  
+  
+  #explore tab viz
   output$singleQuestionPlot <- renderPlotly({
-    plotSingleQuestion(input$selectQuestionSingle, 
+    plotSingleQuestion(input$selectQuestionSingle, input$selectGSSYear,
                        input$sortDirectionCategorical, input$orientationCategorical,
                        input$categoryCountCategorical, input$topNCategorical,
                        input$binsConfigQuantitative, input$binsQuantitative)
   })
   
-  #tab2 viz
+  
+  
+  #compare tab viz
   output$compareQuestionPlot <- renderPlotly({
     plotQuestionComparison(input$selectQuestionCompare1, input$selectQuestionCompare2)
   })
