@@ -17,7 +17,8 @@ function(input, output, session) {
   #handling year selection
   observeEvent(input$selectGSSYear, {
     #update gss data 
-    gss_data <- gss_get_yr(input$selectGSSYear)
+    gss_data <- gss_all %>%
+      filter(year == as.numeric(input$selectGSSYear))
     
     #update the selectize choices:
     gss_var_info <- gss_dict %>% #variable, label, and var_text from gss_dict for gssYear
@@ -35,6 +36,9 @@ function(input, output, session) {
     updateSelectizeInput(session, 'selectQuestionSingle',
                          choices = gss_var_info$variable,
                          server = TRUE)
+    
+    #print updated list of vars
+    #print(dim(gss_var_info)) seems to work
   })
   
   

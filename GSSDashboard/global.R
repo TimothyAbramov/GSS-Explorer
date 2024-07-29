@@ -17,11 +17,11 @@ library(readxl)
 library(stringr)
 
 #getting the data in from NORC directly
-gss_data <- gss_get_yr(2022) 
+data(gss_all)
+gss_year = 2022
+gss_data <- gss_all %>%
+  filter(year == gss_year)
 
-#local way of loading data
-#setwd("/Users/home/Downloads/4. Github Public Repos/GSS Dashboard (Shiny)/GSSDashboard")
-#gss_data <- read.dta13("data/GSS2022.dta")
 
 #var types file
 gss_var_types <- read_excel("data/varInfo.xlsx")
@@ -42,7 +42,7 @@ gss_var_info <- gss_dict %>%
   na.omit() %>%
   mutate(label = unname(label)) %>%
   unnest(years) %>%
-  filter(year == 2022, present == TRUE) %>%
+  filter(year == gss_year, present == TRUE) %>%
   inner_join(gss_var_types, by = "variable") %>% #filter vars to only those that I have a type for
   filter(status == "done") %>%
   select(variable, label = label.x, text = var_text.x, type, subtype)
@@ -117,7 +117,7 @@ wrapp_text <- function(text, threshold = 20){
 #plot(s) for a single question/var selection
 plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories, topN, binsConfig, bins){
   
-  #-no selection
+  #-no selection TODO(getting this a decent number of times, see if that can be fixed)
   if(varName == ""){
     print("no question selected!(selectizeInput)")
     return()
@@ -157,7 +157,6 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
       dplyr::summarise(count = sum(quantity))  %>%
       dplyr::filter(!is.na(get(varName))) %>%
       dplyr::mutate(percent = count / sum(count) * 100)
-      #dplyr::mutate(cat_name = wrapp_text(!!varName))
     cat_values[[varName]] <- wrapp_text(cat_values[[varName]])
     
     #print("Data prepped for plotly:")
