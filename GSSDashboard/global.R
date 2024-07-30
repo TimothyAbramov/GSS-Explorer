@@ -17,10 +17,9 @@ library(readxl)
 library(stringr)
 
 #getting the data in from NORC directly
-data(gss_all)
+#data(gss_all) don't have enough ram on shinyapps service for that
 gss_year = 2022
-gss_data <- gss_all %>%
-  filter(year == gss_year)
+gss_data <- gss_get_yr(gss_year)
 
 
 #var types file
@@ -159,8 +158,8 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
       dplyr::mutate(percent = count / sum(count) * 100)
     cat_values[[varName]] <- wrapp_text(cat_values[[varName]])
     
-    #print("Data prepped for plotly:")
-    #print(cat_values)
+    print("Data prepped for plotly:")
+    print(cat_values)
     
     graph <- plot_ly(x = if(orientation == "vertical"){~cat_values[[varName]]}else{~cat_values$percent} ,
                      y = if(orientation == "vertical"){~cat_values$percent}else{~cat_values[[varName]]},
