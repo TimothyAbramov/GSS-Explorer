@@ -54,10 +54,22 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
      ),
      
      column(width = 9,
-        withSpinner(
-          plotlyOutput("singleQuestionPlot", height = "85vh")
-        )
-     )
+        tabsetPanel(type = "tabs",
+                    
+            tabPanel("Visuals",
+            withSpinner(
+              plotlyOutput("singleQuestionPlot", height = "80vh")
+            )),
+            
+            tabPanel("Var Info",
+                     verbatimTextOutput("singleQuestionInfo")),
+            
+            tabPanel("Viz Data",
+                     tableOutput("singleQuestionData"))
+            
+        )#tabsetPanel
+            
+     ) #output/viz column
      
     )  #fluidrow       
   

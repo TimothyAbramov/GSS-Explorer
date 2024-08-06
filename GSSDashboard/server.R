@@ -61,6 +61,17 @@ function(input, output, session) {
                        input$binsConfigQuantitative, input$binsQuantitative)
   })
   
+  output$singleQuestionInfo <- renderText({
+    final_string <- "var:"
+    final_string <- paste(final_string, "varname")
+    final_string <- paste(final_string, "label:", sep = "\n")
+    final_string <- paste(final_string, "varlabel")
+    final_string <- paste(final_string, "full text:", sep = "\n")
+    final_string <- paste(final_string, "full text")
+    })
+  
+  output$singleQuestionData <- renderTable(iris)
+  
   
   
   #compare tab viz
