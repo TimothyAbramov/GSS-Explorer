@@ -47,9 +47,11 @@ navbarPage("GSS Explorer", theme = shinytheme("flatly"),
                          value = 5, min = 1, max = 150)
           )                 
                          
-        ) #end conditional panel for quantitative
+        ), #end conditional panel for quantitative
         
-        
+        radioGroupButtons("metricRadio", "metric:", 
+                          choices = c("percentage", "count"), 
+                          status = "default")
         
      ),
      

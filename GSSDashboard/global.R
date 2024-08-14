@@ -190,12 +190,18 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
     # print(max(plotData[[varName]], na.rm = TRUE))
     
     #axis styles:
-    ax_hist <- list(
+    xax_hist <- list(
       title = varName,
       zeroline = FALSE,
       showline = FALSE,
       showticklabels = TRUE,
       showgrid = FALSE
+    )
+    
+    yax_hist <- list(
+      zeroline = FALSE,
+      showline = FALSE,
+      showticklabels = TRUE
     )
 
     ax_box <- list(
@@ -224,7 +230,7 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
                 nbinsx = 5,
                 hoverlabel = list(font = list(color = '#FFFFFF')),
                 hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
-          layout(xaxis = ax_hist, yaxis = ax_hist)
+          layout(xaxis = xax_hist, yaxis = yax_hist)
       }
       #manual num of bins
       else 
@@ -236,7 +242,7 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
                              size = (max(plotData[[varName]], na.rm = TRUE) - min(plotData[[varName]], na.rm = TRUE)) / bins),
                 hoverlabel = list(font = list(color = '#FFFFFF')),
                 hovertemplate = '%{x}<br>%{y:.1f}%<extra></extra>') %>%
-          layout(xaxis = ax_hist, yaxis = ax_hist)
+          layout(xaxis = xax_hist, yaxis = yax_hist)
       },
       
       nrows = 2, heights = c(0.3, 0.7),
