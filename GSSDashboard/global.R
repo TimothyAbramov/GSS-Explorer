@@ -16,10 +16,11 @@ library(rlang)
 library(readxl)
 library(stringr)
 
-#getting the data in from NORC directly
+#getting the data in from NORC directly, scrap the ideal, like potential reliability of local more + faster loads
 #data(gss_all) don't have enough ram on shinyapps service for that
+#  'arg' should be one of “1972”, “1973”, “1974”, “1975”, “1976”, “1977”, “1978”, “1980”, “1982”, “1983”, “1984”, “1985”, “1986”, “1987”, “1988”, “1989”, “1990”, “1991”, “1993”, “1994”, “1996”, “1998”, “2000”, “2002”, “2004”, “2006”, “2008”, “2010”, “2012”, “2014”, “2016”, “2018”, “2021”, “2022”
 gss_year = 2022
-gss_data <- gss_get_yr(gss_year)
+gss_data <- gss_get_yr(1972, save_file = 'y')
 
 
 #var types file
@@ -199,6 +200,7 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
     )
     
     yax_hist <- list(
+      title = list(text = "%"),
       zeroline = FALSE,
       showline = FALSE,
       showticklabels = TRUE
@@ -266,6 +268,7 @@ plotSingleQuestion <- function(varName, gssYear, sort, orientation, nCategories,
 
 #plot(s) for 2 questions/vars selected
 plotQuestionComparison <- function(varName1, varName2){
+  #all type combinations
   
 }
 
